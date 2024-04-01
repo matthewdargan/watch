@@ -48,6 +48,11 @@ func main() {
 	if flag.NArg() == 0 {
 		usage()
 	}
+	args := flag.Args()
+	cmd := exec.Command(args[0], args[1:]...)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	_ = cmd.Run()
 	modTimes := make(map[string]time.Time)
 	for {
 		err := filepath.WalkDir(".", func(path string, d fs.DirEntry, err error) error {
@@ -67,7 +72,6 @@ func main() {
 			modTime := info.ModTime()
 			prevModTime, ok := modTimes[path]
 			if ok && modTime.After(prevModTime) {
-				args := flag.Args()
 				cmd := exec.Command(args[0], args[1:]...)
 				cmd.Stdout = os.Stdout
 				cmd.Stderr = os.Stderr
