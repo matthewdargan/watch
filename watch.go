@@ -49,20 +49,13 @@ func main() {
 		usage()
 	}
 	args := flag.Args()
-	cmd := exec.Command(args[0], args[1:]...)
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	_ = cmd.Run()
-	modTimes := make(map[string]time.Time)
+	var prevMod, currMod time.Time
 	for {
 		err := filepath.WalkDir(".", func(path string, d fs.DirEntry, err error) error {
 			if err != nil {
 				return err
 			}
-			if path == "." {
-				return nil
-			}
-			if !*recursive && d.IsDir() {
+			if !*recursive && d.IsDir() && path != "." {
 				return filepath.SkipDir
 			}
 			info, err := d.Info()
@@ -70,20 +63,20 @@ func main() {
 				return err
 			}
 			modTime := info.ModTime()
-			prevModTime, ok := modTimes[path]
-			if ok && modTime.After(prevModTime) {
-				cmd := exec.Command(args[0], args[1:]...)
-				cmd.Stdout = os.Stdout
-				cmd.Stderr = os.Stderr
-				_ = cmd.Run()
-				clear(modTimes)
-				return filepath.SkipAll
+			if modTime.After(currMod) {
+				currMod = modTime
 			}
-			modTimes[path] = modTime
 			return nil
 		})
 		if err != nil {
 			log.Fatal(err)
+		}
+		if currMod.After(prevMod) {
+			cmd := exec.Command(args[0], args[1:]...)
+			cmd.Stdout = os.Stdout
+			cmd.Stderr = os.Stderr
+			_ = cmd.Run()
+			prevMod = currMod
 		}
 		time.Sleep(1 * time.Second)
 	}
