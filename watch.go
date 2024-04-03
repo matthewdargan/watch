@@ -6,7 +6,7 @@
 //
 // Usage:
 //
-//	watch cmd [args...]
+//	watch [-r] cmd [args...]
 //
 // The -r flag causes watch to monitor the current directory and all
 // subdirectories for modifications.

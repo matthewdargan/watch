@@ -4,7 +4,7 @@ Watch runs a command each time any file in the current directory is written.
 
 Usage:
 
-    watch cmd [args...]
+    watch [-r] cmd [args...]
 
 The `-r` flag causes watch to monitor the current directory and all
 subdirectories for modifications.
