@@ -1,6 +1,9 @@
 {
   inputs = {
-    nix-go.url = "github:matthewdargan/nix-go";
+    nix-go = {
+      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:matthewdargan/nix-go";
+    };
     nixpkgs.url = "nixpkgs/nixos-unstable";
     parts.url = "github:hercules-ci/flake-parts";
     pre-commit-hooks = {
@@ -33,7 +36,7 @@
             pname = "watch";
             src = ./.;
             vendorHash = null;
-            version = "0.1.4";
+            version = "0.1.5";
           };
         };
         pre-commit = {
