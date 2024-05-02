@@ -25,19 +25,17 @@
           packages = [inputs'.nix-go.packages.go];
           shellHook = "${config.pre-commit.installationScript}";
         };
-        packages = {
-          watch = inputs'.nix-go.legacyPackages.buildGoModule {
-            meta = with lib; {
-              description = "Run a command each time any file in the current directory is written";
-              homepage = "https://github.com/matthewdargan/watch";
-              license = licenses.bsd3;
-              maintainers = with maintainers; [matthewdargan];
-            };
-            pname = "watch";
-            src = ./.;
-            vendorHash = null;
-            version = "0.1.6";
+        packages.watch = inputs'.nix-go.legacyPackages.buildGoModule {
+          meta = with lib; {
+            description = "Run a command each time any file in the current directory is written";
+            homepage = "https://github.com/matthewdargan/watch";
+            license = licenses.bsd3;
+            maintainers = with maintainers; [matthewdargan];
           };
+          pname = "watch";
+          src = ./.;
+          vendorHash = null;
+          version = "0.1.6";
         };
         pre-commit = {
           settings = {
