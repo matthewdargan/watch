@@ -35,7 +35,7 @@
           pname = "watch";
           src = ./.;
           vendorHash = null;
-          version = "0.1.8";
+          version = "0.1.9";
         };
         pre-commit = {
           settings = {
