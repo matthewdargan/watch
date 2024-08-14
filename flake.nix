@@ -35,9 +35,10 @@
           pname = "watch";
           src = ./.;
           vendorHash = null;
-          version = "0.1.10";
+          version = "0.1.11";
         };
         pre-commit = {
+          check.enable = false;
           settings = {
             hooks = {
               alejandra.enable = true;
