@@ -22,7 +22,7 @@
         ...
       }: {
         devShells.default = pkgs.mkShell {
-          packages = [inputs'.nix-go.packages.go];
+          packages = [inputs'.nix-go.packages.go inputs'.nix-go.packages.golangci-lint];
           shellHook = "${config.pre-commit.installationScript}";
         };
         packages.watch = inputs'.nix-go.legacyPackages.buildGoModule {
@@ -35,10 +35,9 @@
           pname = "watch";
           src = ./.;
           vendorHash = null;
-          version = "0.1.11";
+          version = "0.1.12";
         };
         pre-commit = {
-          check.enable = false;
           settings = {
             hooks = {
               alejandra.enable = true;
